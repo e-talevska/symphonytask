@@ -6,6 +6,7 @@ This project is an online tool for converting betting odds. It's created as cust
 Installation
 ------------
 
+    git clone https://github.com/e-talevska/symphonytask.git
     cd symphonytask
     composer install
     mv config/database.sample.php config/datbase.php
