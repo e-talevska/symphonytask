@@ -1,0 +1,13 @@
+{% extends "layouts/error.html.twig" %}
+
+{% block statusCode %}500{% endblock %}
+
+{% block subheader %}
+    Looks like we're having <br>
+    some server issues.
+{% endblock %}
+
+{% block script %}
+    var ep = new ErrorPage('body', "500", "plain");
+    ep.initialize();
+{% endblock %}

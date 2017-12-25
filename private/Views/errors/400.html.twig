@@ -1,0 +1,13 @@
+{% extends "layouts/error.html.twig" %}
+
+{% block statusCode %}404{% endblock %}
+
+{% block subheader %}
+    Oops, the page you're <br>
+    looking for does not exist.
+{% endblock %}
+
+{% block script %}
+var ep = new ErrorPage('body', "404", "plain");
+ep.initialize();
+{% endblock %}

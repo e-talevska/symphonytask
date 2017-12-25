@@ -1,0 +1,125 @@
+{% extends "layouts/main.html.twig" %}
+
+{% block title %}Bet Conversion{% endblock %}
+
+{% block content %}
+    <h1 class="legend-header">Odds Converter</h1>
+    <p>There are 3 methods of stating odds that most bookmakers and websites support.</p>
+    <dl>
+        <dt>Fractions</dt>
+        <dd>Used primarily in the UK and Ireland, fractions quote the potential <strong>profit</strong> should the bet
+            succeed, relative to the stake.
+            For example if £5 is bet at odds of 2/1 the potential profit is £10 (£5 * 2) and the total returned is £15
+            (£10 plus the £5 stake).
+        </dd>
+        <dt>Decimals</dt>
+        <dd>Decimals quote the potential <strong>return</strong> should the bet succeed, relative to the stake.
+            For example if £5 is bet at odds of 3 the total returned is £15 (£5 * 3) the potential profit is £10 (£5 * 3
+            minus the £5 stake).
+        </dd>
+        <dt>American</dt>
+        <dd>
+            <ul>
+                <li>Positive figures: The odds state the winnings on a £100 bet e.g. american odds of 110 would win £110
+                    on a £100 bet.
+                </li>
+                <li>Negative figures: The odds state how much must be bet to win £100 profit e.g. american odds of -90
+                    would win £100 on a £90 bet.
+                </li>
+            </ul>
+        </dd>
+    </dl>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-dark" data-open="modal" data-target="#makeConversion">
+        Calculate Odds
+    </button>
+
+    {% if odds %}
+        <div class="legend-header"><h4>Odds Conversion Table</h4></div>
+        <div class="row">
+            {% if odds|length > 1 %}
+                {% for i in 1..2 %}
+                    <div class="col-lg-6">
+                        <table id="odds-conversion-table" class="table table-bordered table-sm">
+                            <thead >
+                            <tr>
+                                <th>Fraction</th>
+                                <th>Decimal</th>
+                                <th>American</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% set length = odds|length %}
+
+                            {% for odd in odds|slice(0, length/2|round(0, 'ceil')) %}
+                                <tr>
+                                    <td>{{ odd.fractional|e }}</td>
+                                    <td>{{ odd.decimal|e }}</td>
+                                    <td>{{ odd.moneyline|e }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% endif %}
+
+
+    <div class="popup" id="makeConversion" role="dialog">
+        <div class="popup-inner clearfix" role="document">
+            <div class="popup-title-before">
+                <div class="popup-title-box">
+                    <i class="popup-close fa fa-times-circle-o" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="popup-title">
+                <img class="popup-title-dices" src="{{  constant('Config::ASSETS_IMAGES_ROOT') }}dices.png" alt="Dices">
+                <h2>Odds Converter</h2>
+            </div>
+            <div class="popup-body clearfix">
+                <form id="odds-converter">
+                    <div class="container">
+                        <div class="row">
+                            <h3>
+                                Enter Your Odds
+                                <small class="text-muted">(Converts Automatically)</small>
+                            </h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <h6>Fractional Odds</h6>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 offset-sm-3">
+                                        <input type="text" maxlength="7" id="fraction" name="fractional_odds" class="form-control form-control-sm odds-converter-input">
+                                        <small class="text-muted">(eg 11/4)</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <h6>Decimal odds</h6>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 offset-sm-3">
+                                        <input type="text" maxlength="7" id="decimal" name="decimal_odds" class="form-control form-control-sm odds-converter-input">
+                                        <small class="text-muted">(eg. 3.75)</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <h6>Moneyline Odds</h6>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 offset-sm-3">
+                                        <input type="text" maxlength="7" id="moneyline" name="moneyline_odds" class="form-control form-control-sm odds-converter-input">
+                                        <small class="text-muted">(eg. +275)</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {#<button type="submit" class="btn btn-dark btn-sm float-right">Calculate</button>#}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
